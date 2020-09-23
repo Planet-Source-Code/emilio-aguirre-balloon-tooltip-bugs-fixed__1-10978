@@ -1,0 +1,45 @@
+BUGS FIXED:
+
+1) 	First of all change this line :
+
+	'Create Region 2: Tail of the balloon
+	Reg(1) = CreatePolygonRgn(p(0), 3, 0)
+	
+	for this :
+
+	'Create Region 2: Tail of the balloon
+	Reg(1) = CreatePolygonRgn(p(0), 3, 1)
+
+	in the ChangeStyle() subrutine
+
+2) Place the On Error Resume Next statement in the
+   Search_Wnd subrutine like this:
+
+	Public Sub Search_Wnd()
+	  Dim curhWnd As Long
+	  Dim p As POINTAPI
+	  Static oldhWnd As Long
+	  Dim blnFound As Boolean
+	  Dim ctrl As Control
+  ===> add this code
+	  On Error Resume Next
+  ===> end of modifications
+
+3) Add the following lines after the HideTip Statement in 
+the Search_Wnd() rutine:
+
+ If (m_oldhWnd <> curhWnd) Then
+         blnFound = False
+         HideTip
+=====> add here the following lines:
+
+         'Check if mouse its over the form
+         If curhWnd = UserControl.Parent.hWnd Then
+              m_oldhWnd = curhWnd
+              Exit Sub
+         End If
+
+======> End of modifications
+
+
+4) Try it again!
